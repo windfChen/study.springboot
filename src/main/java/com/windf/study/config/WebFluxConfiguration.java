@@ -20,7 +20,7 @@ public class WebFluxConfiguration {
     public RouterFunction<ServerResponse> routerFunctionAllUsers(UserRepository userRepository) {
         Collection<User> users = userRepository.findAll();
         Flux<User> userFlux = Flux.fromIterable(users);
-        return RouterFunctions.route(RequestPredicates.path("/users"),
+        return RouterFunctions.route(RequestPredicates.path("/user/all"),
                 request -> ServerResponse.ok().body(userFlux, User.class));
     }
 }

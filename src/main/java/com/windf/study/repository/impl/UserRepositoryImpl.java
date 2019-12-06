@@ -4,18 +4,17 @@ import com.windf.study.domain.User;
 import com.windf.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -51,7 +50,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+
     public Collection<User> findAll() {
-        return Collections.emptyList();
+        List<User> users = jdbcTemplate.query(
+                "select id, name from t_user",
+                new BeanPropertyRowMapper<User>(User.class));
+        return users;
     }
 }

@@ -4,10 +4,10 @@ import com.windf.study.domain.User;
 import com.windf.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -18,12 +18,17 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/user/save")
+    @PostMapping("/user")
     public User save(@RequestParam String name) {
         User user = new User();
         user.setName(name);
         userRepository.save(user);
         return user;
+    }
+
+    @GetMapping("users")
+    public Collection<User> list() {
+        return userRepository.findAll();
     }
 
     @PostMapping(value = "/user/json/to/properties",
